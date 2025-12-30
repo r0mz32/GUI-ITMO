@@ -69,8 +69,6 @@ pyinstaller --onefile --windowed --name="PSF_Calculator" \
   --hidden-import PIL \
   main.py
   ```
-Исполняемй файл для Linux лежит в папке dist
-
 - Windows
 ```bash
 pyinstaller --onefile --windowed --name="PSF_Calculator" ^

@@ -45,3 +45,44 @@ python3 main.py
 - SciPy - свертка
 - Matplotlib - графики
 - Pillow - картинки
+
+## сборка исполняемого файла \ exe
+Необходимо установить библиотеку pyinstaller
+```bash
+pip install pyinstaller
+```
+
+И выполнить одну из команд для систем:
+
+- Linux
+```bash
+pyinstaller --onefile --windowed --name="PSF_Calculator" \
+  --add-data "frontend:frontend" \
+  --add-data "backend:backend" \
+  --add-data "imgs:imgs" \
+  --hidden-import PyQt6.QtCore \
+  --hidden-import PyQt6.QtGui \
+  --hidden-import PyQt6.QtWidgets \
+  --hidden-import matplotlib \
+  --hidden-import numpy \
+  --hidden-import scipy \
+  --hidden-import PIL \
+  main.py
+  ```
+Исполняемй файл для Linux лежит в папке dist
+
+- Windows
+```bash
+pyinstaller --onefile --windowed --name="PSF_Calculator" ^
+  --add-data "frontend;frontend" ^
+  --add-data "backend;backend" ^
+  --add-data "imgs;imgs" ^
+  --hidden-import PyQt6.QtCore ^
+  --hidden-import PyQt6.QtGui ^
+  --hidden-import PyQt6.QtWidgets ^
+  --hidden-import matplotlib ^
+  --hidden-import numpy ^
+  --hidden-import scipy ^
+  --hidden-import PIL ^
+  main.py
+  ```

@@ -14,6 +14,122 @@ WINDOW_TITLE = "PSF Calculator"
 WINDOW_MIN_WIDTH = 1200
 WINDOW_MIN_HEIGHT = 800
 
+
+# === CONFIGURATION: Parameter Limits and Validation ===
+
+class OpticalLimits:
+    """Limits for optical system parameters"""
+    # wavelength in microns
+    WAVELENGTH_MIN = 0.3
+    WAVELENGTH_MAX = 1.0
+    WAVELENGTH_DEFAULT = 0.555
+
+    # numerical aperture
+    NA_MIN = 0.1
+    NA_MAX = 1.65
+    NA_DEFAULT = 1.2
+
+    # magnification
+    MAG_MIN = 1.0
+    MAG_MAX = 200.0
+    MAG_DEFAULT = 100.0
+
+    # defocus in wavelengths
+    DEFOCUS_MIN = -10.0
+    DEFOCUS_MAX = 10.0
+    DEFOCUS_DEFAULT = 0.0
+
+    # astigmatism in wavelengths
+    ASTIG_MIN = -5.0
+    ASTIG_MAX = 5.0
+    ASTIG_DEFAULT = 0.0
+
+    # pupil diameter in canonical units
+    DIAM_PUPIL_MIN = 0.1
+    DIAM_PUPIL_MAX = 50.0
+    DIAM_PUPIL_DEFAULT = 7.5
+
+    # step parameters in canonical units
+    STEP_MIN = 0.001
+    STEP_MAX = 100.0
+
+    # step parameters in microns
+    STEP_MICRONS_MIN = 0.0001
+    STEP_MICRONS_MAX = 10.0
+
+    # sample size (pixels)
+    SAMPLE_SIZES = [128, 256, 512, 1024, 2048]
+    SAMPLE_SIZE_DEFAULT = 512
+
+    @staticmethod
+    def validate_wavelength(value: float) -> tuple[bool, str]:
+        if value <= 0:
+            return False, "Wavelength must be positive (> 0)"
+        if value < OpticalLimits.WAVELENGTH_MIN:
+            return False, f"Wavelength too small (min: {OpticalLimits.WAVELENGTH_MIN})"
+        if value > OpticalLimits.WAVELENGTH_MAX:
+            return False, f"Wavelength too large (max: {OpticalLimits.WAVELENGTH_MAX})"
+        return True, ""
+
+    @staticmethod
+    def validate_na(value: float) -> tuple[bool, str]:
+        if value <= 0:
+            return False, "NA must be positive (> 0)"
+        if value < OpticalLimits.NA_MIN:
+            return False, f"NA too small (min: {OpticalLimits.NA_MIN})"
+        if value > OpticalLimits.NA_MAX:
+            return False, f"NA too large (max: {OpticalLimits.NA_MAX})"
+        return True, ""
+
+    @staticmethod
+    def validate_magnification(value: float) -> tuple[bool, str]:
+        if value <= 0:
+            return False, "Magnification must be positive (> 0)"
+        if value < OpticalLimits.MAG_MIN:
+            return False, f"Magnification too small (min: {OpticalLimits.MAG_MIN})"
+        if value > OpticalLimits.MAG_MAX:
+            return False, f"Magnification too large (max: {OpticalLimits.MAG_MAX})"
+        return True, ""
+
+    @staticmethod
+    def validate_defocus(value: float) -> tuple[bool, str]:
+        if value < OpticalLimits.DEFOCUS_MIN:
+            return False, f"Defocus too small (min: {OpticalLimits.DEFOCUS_MIN})"
+        if value > OpticalLimits.DEFOCUS_MAX:
+            return False, f"Defocus too large (max: {OpticalLimits.DEFOCUS_MAX})"
+        return True, ""
+
+    @staticmethod
+    def validate_astigmatism(value: float) -> tuple[bool, str]:
+        if value < OpticalLimits.ASTIG_MIN:
+            return False, f"Astigmatism too small (min: {OpticalLimits.ASTIG_MIN})"
+        if value > OpticalLimits.ASTIG_MAX:
+            return False, f"Astigmatism too large (max: {OpticalLimits.ASTIG_MAX})"
+        return True, ""
+
+    @staticmethod
+    def validate_step(value: float, in_microns: bool = False) -> tuple[bool, str]:
+        if value <= 0:
+            return False, "Step must be positive (> 0)"
+        min_val = OpticalLimits.STEP_MICRONS_MIN if in_microns else OpticalLimits.STEP_MIN
+        max_val = OpticalLimits.STEP_MICRONS_MAX if in_microns else OpticalLimits.STEP_MAX
+        if value < min_val:
+            return False, f"Step too small (min: {min_val})"
+        if value > max_val:
+            return False, f"Step too large (max: {max_val})"
+        return True, ""
+
+    @staticmethod
+    def validate_diam_pupil(value: float) -> tuple[bool, str]:
+        if value <= 0:
+            return False, "Pupil diameter must be positive (> 0)"
+        if value < OpticalLimits.DIAM_PUPIL_MIN:
+            return False, f"Pupil diameter too small (min: {OpticalLimits.DIAM_PUPIL_MIN})"
+        if value > OpticalLimits.DIAM_PUPIL_MAX:
+            return False, f"Pupil diameter too large (max: {OpticalLimits.DIAM_PUPIL_MAX})"
+        return True, ""
+
+
 # логи
 
 

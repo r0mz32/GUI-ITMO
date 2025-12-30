@@ -69,7 +69,13 @@ class PSFCalculator:
 
         # интенсивность
         intensity = np.abs(field) ** 2
-        psf = intensity * (1.0 / (np.pi ** 2))
+
+        # normalize to total energy = 1 (physically correct)
+        total_energy = np.sum(intensity)
+        if total_energy > 0:
+            psf = intensity / total_energy
+        else:
+            psf = intensity
 
         return psf
 
